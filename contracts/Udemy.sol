@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.9;
 
 contract Udemy {
@@ -32,5 +33,13 @@ contract Udemy {
         courses[coursesCount] = Course(coursesCount, _title, _body, payable(msg.sender));
         // Trigger an event
         emit CourseCreated(coursesCount, _title, _body, payable(msg.sender));
+    }
+
+    function getAllCourses() public view returns (Course[] memory) {
+        Course[] memory _courses = new Course[](coursesCount);
+        for (uint i = 0; i < coursesCount; i++) {
+            _courses[i] = courses[i + 1];
+        }
+        return _courses;
     }
 }
