@@ -10,6 +10,7 @@ contract Udemy {
         uint id;
         string title;
         string body;
+        string thumbnail;
         address payable author;
     }
 
@@ -17,23 +18,29 @@ contract Udemy {
         uint id,
         string title,
         string body,
+        string thumbnail,
         address payable author
     );
 
-    function createCourse(string memory _title, string memory _body) public {
+    function createCourse(string memory _title, string memory _body, string memory _thumbnail ) public {
         // Require valid title
         require(bytes(_title).length > 0);
         // Require valid body
         require(bytes(_body).length > 0);
+        // Require valid thumbnail
+        require(bytes(_thumbnail).length > 0);
         // Require valid author
         require(msg.sender != address(0x0));
         // Increment course count
         coursesCount ++;
         // Create the course
-        courses[coursesCount] = Course(coursesCount, _title, _body, payable(msg.sender));
+        courses[coursesCount] = Course(coursesCount, _title, _body, _thumbnail, payable(msg.sender));
         // Trigger an event
-        emit CourseCreated(coursesCount, _title, _body, payable(msg.sender));
+        emit CourseCreated(coursesCount, _title, _body,_thumbnail, payable(msg.sender));
     }
+
+
+
 
     function getAllCourses() public view returns (Course[] memory) {
         Course[] memory _courses = new Course[](coursesCount);
